@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>할아버지의 ㄷㄱ지도</title>
+    <link rel="stylesheet" href="./main.css" />
+    <content="width=device-width, user-scalable=no, initial-scale=1.0,
+    maximum-scale=1.0, minimum-scale=1.0>
+  </head>
+  <body>
+    
+    <div
+      id="map"
+      style="
+        width: 100%;
+        height: 1000px;
+        background-color: orange;
+        font-size: 15px;
+        color: orange;" 
+    
+    >
+</div>
+
+<button id="myButton">Click me</button>
+
+
+
+
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b2f6fe201485a9197a0e6d270ba53121"
+    ></script>
+    <script>
+const button = document.getElementById('myButton');
+const audio = new Audio('123.mp3');
+
+button.addEventListener('click', () => {
+  audio.play();
+});
+
+      var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+        mapOption = {
+          center: new kakao.maps.LatLng(37.28764169511913, 127.03169993747403), // 지도의 중심좌표
+          level: 5, // 지도의 확대 레벨
+        };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      var positions = [
+        {
+          title: "월드컵 경기장",
+          content: '<div style="padding:20px; margin-left:25px;"> 이거 공짜 </div>',
+          latlng: new kakao.maps.LatLng(37.28642378324047, 127.03690936416858),
+        },
+      ];
+
+      // 마커 이미지의 이미지 주소입니다
+      var imageSrc = "https://ifh.cc/g/9OhXja.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        // 마커 이미지의 이미지 크기 입니다
+        var imageSize = new kakao.maps.Size(150.15);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        // 마커 이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[i].latlng, // 마커를 표시할 위치
+          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image: markerImage, // 마커 이미지
+        });
+
+        // 마커에 표시할 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content, // 인포윈도우에 표시할 내용
+        });
+
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+        // 이벤트 리스너로는 클로저를 만들어 등록합니다
+        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent = '<div style="padding:5px; " >  </div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+      // 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, "click", function () {
+        // 마커 위에 인포윈도우를 표시합니다
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "경기대학교",
+          content: '<div style="padding:20px;"> 당근에서 천원 주고 샀어</div>',
+          latlng: new kakao.maps.LatLng(37.300426465074906, 127.03507772681907),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/qvASFN.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(90.9);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "우편취급국",
+          content:
+            '<div style="padding:20px;  "> 차에 티비 연결이 안돼 <br>근데 나눔이래 </div>',
+          latlng: new kakao.maps.LatLng(37.289574638375726, 127.03088313749659),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/sn893z.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(90,120);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/n2YaVF.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "종합운동장",
+          content:
+            '<div style="padding:20px;"> 김씨 아저씨가 줬어 </div>',
+          latlng: new kakao.maps.LatLng(37.2979442403701, 127.01152677147091),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/HmjdN9.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(90, 120);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/pkjRNk.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "팔달문",
+          content:
+            '<div style="padding:20px;"> 구할수도 없는 물건이야 이거 </div>',
+          latlng: new kakao.maps.LatLng(37.27736388871625, 127.01680059934301),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/f0dRgA.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(130, 80);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/DcK9qo.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "아주대학교",
+          content:
+            '<div style="padding:20px;"> 박사장이 필요하대 </div>',
+          latlng: new kakao.maps.LatLng(37.28272733305656, 127.04336891861526),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/vpmYdG.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(150, 150);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "연무시장",
+          content:
+            '<div style="padding:20px;"> 건조한게 건강에 안좋다구 </div>',
+          latlng: new kakao.maps.LatLng(37.29552699872638, 127.02675208104218),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/Zg4bHJ.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(120.12);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "우만1동 행정복지센터",
+          content:
+            '<div style="padding:20px;"> 건전지가 비싸잖아<br>무지하게 비싸다구<br>근데 다해서 오천원주고 샀어 </div>',
+          latlng: new kakao.maps.LatLng(37.285398699905265, 127.02940981261746),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/44zc6d.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(150.15);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "풍림아파트",
+          content:
+            '<div style="padding:20px;"> 콧털도 자를 수 있어 <br> 무지하게 좋은거라구 </div>',
+          latlng: new kakao.maps.LatLng(37.28715521250675, 127.03140653060613),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/rm3qNq.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(170.17);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "여권 민원실",
+          content:
+            '<div style="padding:20px;"> 낚시할때 귀가시려워 </div>',
+          latlng: new kakao.maps.LatLng(37.288136763669144, 127.03352422),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/DvPHd5.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(100.12);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+
+      
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "만석공원",
+          content:
+            '<div style="padding:20px;"> 이게 얼마나 유용한데 </div>',
+          latlng: new kakao.maps.LatLng(37.29773755350552, 127.00151133380976),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/26Zh6r.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140.14);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "우체국",
+          content:
+            '<div style="padding:20px;"> 이게 불판이 필요가 없어 <br>가서 고기 구워먹으려고 </div>',
+          latlng: new kakao.maps.LatLng(37.28291377226356, 127.02013964671801),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/FDMT9z.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140.14);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "장안문",
+          content:
+            '<div style="padding:20px;"> 박사장이 쓰는데<br>냄비 올려두고<br>무지하게 편해보여</div>',
+          latlng: new kakao.maps.LatLng(37.28900564145687, 127.01432217990663),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/vQ28Yr.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140.14);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "갤러리아 광교",
+          content:
+            '<div style="padding:20px;"> 내가 샀더니 정부장도 산대<br>그래서 대신 사다놓은거야 </div>',
+          latlng: new kakao.maps.LatLng(37.28519027398679, 127.05726327134623),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/1RGvqN.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140.14);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "효원공원",
+          content:
+            '<div style="padding:20px;"> 차에 소화기는 있어야지 </div>',
+          latlng: new kakao.maps.LatLng(37.2643660010635, 127.03790194985648),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/31634z.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(50,130);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "수원시청",
+          content:
+            '<div style="padding:20px;"> 당신 할래? </div>',
+          latlng: new kakao.maps.LatLng(37.2634585525456, 127.0286346812506),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/WlL6NY.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(60.6);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "수원시청",
+          content:
+            '<div style="padding:20px;"> 정부장이 부탁한거야 내꺼 아냐</div>',
+          latlng: new kakao.maps.LatLng(37.2634585525456, 127.0286346812506),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/WlL6NY.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(60.6);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+      function makeOverListener(map, marker, infowindow) {
+        return function () {
+          infowindow.open(map, marker);
+        };
+      }
+
+      function makeOutListener(infowindow) {
+        return function () {
+          infowindow.close();
+        };
+      }
+
+      var iwContent =
+          '<div style="padding:5px; " > <img src="https://ifh.cc/g/AmzVQX.jpg">  </img> </div>',
+        iwRemoveable = true;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+
+      // -----------------------------------------------------------------------------------
+
+      var positions = [
+        {
+          title: "장옥자",
+          content:
+            '<div style="padding:20px; margin-left:15px; "> 이건 또 뭐야 </div>',
+          latlng: new kakao.maps.LatLng(37.28715521250675, 127.03140653060613),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/WlL6NY.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(1,1);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+
+       // -----------------------------------------------------------------------------------
+
+       var positions = [
+        {
+          title: "수원 남부경찰서",
+          content:
+            '<div style="padding:20px;  "> 나랑 낚시 가서<br>당신 깔고 밥먹으라구 </div>',
+          latlng: new kakao.maps.LatLng(37.27195533337336, 127.05443455571353),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/9NZ6Jw.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(130,80);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+ // -----------------------------------------------------------------------------------
+
+ var positions = [
+        {
+          title: "광교 40단지",
+          content:
+            '<div style="padding:20px;  "> 이런거 하나 있어야돼 </div>',
+          latlng: new kakao.maps.LatLng(37.29538319131824, 127.08384256946744),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/N5kSR3.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(150,150);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "KBS",
+          content:
+            '<div style="padding:20px; margin-left:7px;"> 캠핑하면 옷을<br>걸어둘 곳이 없어</div>',
+          latlng: new kakao.maps.LatLng(37.27144160936728, 127.02933673481554 ),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/3nTkkT.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(70,120);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "이춘택병원",
+          content:
+            '<div style="padding:20px; margin-left:5px; "> 이불커번데 새거래 </div>',
+          latlng: new kakao.maps.LatLng(37.27173252809033, 127.0157620727966  ),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/4k81cc.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(90,120);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "동수원병원",
+          content:
+            '<div style="padding:20px; margin-left:10px; "> 당신 다리 힘을<br>길러야 한다구 </div>',
+          latlng: new kakao.maps.LatLng(37.278035904685176,127.0342554858564),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/fKTVrw.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(120,140);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "개나리 공원",
+          content:
+            '<div style="padding:20px; margin-left:15px; "> 나도 몰라 </div>',
+          latlng: new kakao.maps.LatLng(37.209615423103365, 127.06545244497516),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/LF50w1.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(120,140);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "경희대",
+          content:
+            '<div style="padding:20px; "> 누가 버렸길래 가져왔어 </div>',
+          latlng: new kakao.maps.LatLng(37.24657808576051, 127.07756688894531),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/809NSN.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(70,110);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+      // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "망포역",
+          content:
+            '<div style="padding:20px;  "> 정부장이 남는다고 줬어 </div>',
+          latlng: new kakao.maps.LatLng(37.245184792331465, 127.05563253858593),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/Yt6J1r.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(120,140);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "한림대",
+          content:
+            '<div style="padding:20px; margin-left:30px; "> 주웠어 </div>',
+          latlng: new kakao.maps.LatLng(37.216896412937146, 127.07936167210522),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/8ByXsf.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(60,140);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "타임테라스",
+          content:
+            '<div style="padding:20px; margin-left:10px; "> 나 안쓰는거랑 바꿨어 </div>',
+          latlng: new kakao.maps.LatLng(37.20345902526801, 127.06935593234552),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/tlN9A3.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(60,100);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "병점역",
+          content:
+            '<div style="padding:20px; margin-left:8px; "> 누가 필요없다고 줬어 </div>',
+          latlng: new kakao.maps.LatLng(37.20701560592164, 127.03390793621409),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/nsbqNY.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(180,120);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+
+
+      // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "자라뫼 공원",
+          content:
+            '<div style="padding:20px; margin-left:10px; "> 예전에 쓰던거야 </div>',
+          latlng: new kakao.maps.LatLng(37.19271610390478, 127.08665728637274),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/G5Mfgr.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140,100);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+      // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "동탄 롯데백화점",
+          content:
+            '<div style="padding:20px; margin-left:8px; "> 이거 되게 비싼거거든<br>근데 당근으로 삼만원에 샀어 </div>',
+          latlng: new kakao.maps.LatLng(37.200780785625724, 127.09788561277774),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/k4pKX0.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(140,100);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+
+       // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "동수원 사거리",
+          content:
+            '<div style="padding:20px; margin-left:5px; "> 당근에서 이걸<br>무료로 나눔하더라 </div>',
+          latlng: new kakao.maps.LatLng(37.27836106118811, 127.03143670362688 ),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/KAvOkP.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(110,130);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+// -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "엘리웨이",
+          content:
+            '<div style="padding:20px; margin-left:5px; "> 정부장이랑 박사장이랑<br>같이 샀어 </div>',
+          latlng: new kakao.maps.LatLng(37.27486238948938, 127.06120176604578 ),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/PZN4Ky.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(180,110);
+        imageOption = { offset: new kakao.maps.Point(70, 70) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+
+      // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "청구아파트",
+          content:
+            '<div style="padding:20px; margin-left:30px; "> 몰라 뭔지 </div>',
+          latlng: new kakao.maps.LatLng(37.14747165227621, 127.07711661515035),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/phR5gJ.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(150,90);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+      // -----------------------------------------------------------------------------------
+
+var positions = [
+        {
+          title: "라크몽",
+          content:
+            '<div style="padding:20px; margin-left:5px; "> 이런거 모으는 친구 있는데<br>걔가 줬어.. </div>',
+          latlng: new kakao.maps.LatLng(37.16676906307804, 127.10483364091655),
+        },
+      ];
+
+      var imageSrc = "https://ifh.cc/g/Th8Ys9.png";
+
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(130,90);
+        imageOption = { offset: new kakao.maps.Point(45, 45) };
+
+        var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].content,
+        });
+
+        kakao.maps.event.addListener(
+          marker,
+          "mouseover",
+          makeOverListener(map, marker, infowindow)
+        );
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+      }
+
+
+ 
+
+
+
+
+    </script>
+  </body>
+</html>
